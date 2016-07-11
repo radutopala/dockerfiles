@@ -6,24 +6,23 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: symfony
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: ts_bv_website_dev
 
   web:
+    privileged: true
     build: ./apache
     links:
       - mysql
     ports:
       - "80:80"
-    volumes_from:
-      - sync
-  sync:
-    build: ./sync
-    command: "lsyncd -delay 1 -nodaemon -rsync /src /var/www/html"
     volumes:
-      - /var/www/html
-      - "~/Projects/sandbox/services-play:/src"
-    working_dir: /src
-    stdin_open: true
-    tty: true
+      - "~/Projects/trisoft/bestvalue/website-sylius-18:/var/www/html"
+  #
+  # sync:
+  #   privileged: true
+  #   build: ./sync
+  #   command: "/bin/bash /entrypoint.sh"
+  #   volumes:
+  #     - /var/www/html
+  #     - "~/Projects/sandbox/website:/src"
+  #   working_dir: /src
