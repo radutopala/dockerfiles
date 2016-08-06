@@ -1,0 +1,2 @@
+export DOCKER_HOST=tcp://172.17.8.101:2375
+export DOCKER_API_VERSION=1.23

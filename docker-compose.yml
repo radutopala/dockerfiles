@@ -1,28 +1,67 @@
 version: '2'
 services:
+  apache-php:
+    container_name: apache-php
+    build: ./apache-php
+    image: apache-php:local
+
+  app:
+    container_name: app
+    build: ./app
+    volumes:
+      - /vagrant/trisoft/bestvalue/website:/var/www/html
+      - ~/.ssh:/root/.ssh
+      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+    working_dir: /var/www/html
+    ports:
+      - "80:80"
+    links:
+      - mysql
+      - redis
+      - rabbitmq
+      - elasticsearch
+      - selenium
+    depends_on:
+      - apache-php
+    environment:
+      TERM: "xterm"
+      TIMEZONE: "Europe/Bucharest"
+      SSH_AUTH_SOCK: /ssh-agent
+      VAGRANT: VAGRANT
+    shm_size: 1024M
+
   mysql:
-    image: mysql
+    container_name: mysql
+    image: mysql:5.5
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ts_bv_website_dev
+      MYSQL_ROOT_PASSWORD: vagrant
 
-  web:
-    privileged: true
-    build: ./apache
-    links:
-      - mysql
+  redis:
+    container_name: redis
+    image: redis
     ports:
-      - "80:80"
-    volumes:
-      - "~/Projects/trisoft/bestvalue/website-sylius-18:/var/www/html"
-  #
-  # sync:
-  #   privileged: true
-  #   build: ./sync
-  #   command: "/bin/bash /entrypoint.sh"
-  #   volumes:
-  #     - /var/www/html
-  #     - "~/Projects/sandbox/website:/src"
-  #   working_dir: /src
+      - "6379:6379"
+
+  rabbitmq:
+    container_name: rabbitmq
+    build: ./rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: /
+
+  elasticsearch:
+    container_name: elasticsearch
+    build: ./elasticsearch
+    ports:
+      - "9200:9200"
+
+  selenium:
+    container_name: selenium
+    build: ./selenium
+    ports:
+      - "4444:4444"

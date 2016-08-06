@@ -1,8 +1,0 @@
-*.log
-.git
-.idea
-.gitignore
-.travis.yml
-.editorconfig
-cache
-*.sql
