@@ -1,4 +1,4 @@
-FROM apache-php:local
+FROM php7-fpm:local
 
 RUN apt-get clean && apt-get update && apt-get install -y \
     curl \
@@ -23,4 +23,4 @@ RUN wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
     && npm install -g gulp \
     && gem install sass
 
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+CMD /usr/sbin/php-fpm7.0 -F -O
