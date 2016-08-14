@@ -19,4 +19,10 @@ RUN wget http://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zi
 
 ADD selenium-headless.sh /usr/local/bin/selenium-headless
 
+ENV SCREEN_WIDTH 1920
+ENV SCREEN_HEIGHT 1080
+ENV SCREEN_DEPTH 8
+ENV DISPLAY :99.0
+ENV GEOMETRY "$SCREEN_WIDTH""x""$SCREEN_HEIGHT""x""$SCREEN_DEPTH"
+
 CMD selenium-headless
