@@ -16,21 +16,14 @@ services:
     build: ./php7-fpm
     image: php7-fpm:local
 
-  # apache-php:
-  #   container_name: apache-php
-  #   build: ./apache-php
-  #   image: apache-php:local
-
   app:
     container_name: app
     build: ./app
     volumes:
       - /vagrant/trisoft/bestvalue/website:/var/www/html
-      # - ~/.ssh:/root/.ssh
-      # - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+      - ~/.ssh:/root/.ssh
+      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
     working_dir: /var/www/html
-    # ports:
-    #   - "80:80"
     links:
       - mysql
       - redis
