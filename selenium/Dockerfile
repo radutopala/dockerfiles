@@ -12,7 +12,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     && dpkg -i google-chrome-stable_current_amd64.deb \
     && rm google-chrome-stable_current_amd64.deb
 
-RUN wget http://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip \
+RUN wget http://chromedriver.storage.googleapis.com/2.9/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip \
     && unzip /tmp/chromedriver_linux64.zip -d /usr/local/bin \
     && chmod 755 /usr/local/bin/chromedriver \
     && rm /tmp/chromedriver_linux64.zip
