@@ -13,4 +13,10 @@ RUN wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
     && npm install -g gulp \
     && gem install sass
 
-CMD /usr/sbin/php-fpm7.0 -F -O
+ADD bootstrap.sh /bootstrap.sh
+RUN chown root:root /bootstrap.sh
+RUN chmod 700 /bootstrap.sh
+
+ENV BOOTSTRAP /bootstrap.sh
+
+CMD /bootstrap.sh

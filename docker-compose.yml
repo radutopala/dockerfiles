@@ -21,7 +21,6 @@ services:
     build: ./app
     volumes:
       - /vagrant/trisoft/bestvalue/website:/var/www/html
-      - /root/.ssh:/root/.ssh
       - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
     working_dir: /var/www/html
     links:
@@ -40,7 +39,7 @@ services:
       SSH_AUTH_SOCK: /ssh-agent
       VAGRANT: VAGRANT
       APP_CONSOLE_ARGS: --no-debug --env test
-    shm_size: 1024M
+    shm_size: 512M
 
   mysql:
     container_name: mysql
