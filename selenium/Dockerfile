@@ -6,13 +6,13 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /opt/selenium \
-    && wget --no-verbose -O /opt/selenium/selenium.jar http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar
+    && wget --no-verbose -O /opt/selenium/selenium.jar http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
 
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && dpkg -i google-chrome-stable_current_amd64.deb \
     && rm google-chrome-stable_current_amd64.deb
 
-RUN wget http://chromedriver.storage.googleapis.com/2.9/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip \
+RUN wget http://chromedriver.storage.googleapis.com/2.21/chromedriver_linux64.zip -O /tmp/chromedriver_linux64.zip \
     && unzip /tmp/chromedriver_linux64.zip -d /usr/local/bin \
     && chmod 755 /usr/local/bin/chromedriver \
     && rm /tmp/chromedriver_linux64.zip

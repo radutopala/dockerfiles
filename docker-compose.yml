@@ -76,3 +76,5 @@ services:
     build: ./selenium
     ports:
       - "4444:4444"
+    extra_hosts:
+    - "bv.test:192.168.2.100"
