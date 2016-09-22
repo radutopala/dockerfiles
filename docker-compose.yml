@@ -29,6 +29,7 @@ services:
       - rabbitmq
       - elasticsearch
       - selenium
+      - mailcatcher
     depends_on:
       - php-fpm
     ports:
@@ -78,3 +79,10 @@ services:
       - "4444:4444"
     extra_hosts:
     - "bv.test:192.168.2.100"
+
+  mailcatcher:
+    container_name: mailcatcher
+    image: schickling/mailcatcher
+    ports:
+      - "1025:1025"
+      - "1080:1080"
