@@ -11,7 +11,8 @@ RUN wget https://getcomposer.org/composer.phar -O /usr/local/bin/composer \
     && chmod 755 /usr/local/bin/composer \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && npm install -g gulp \
-    && gem install sass
+    && gem install sass \
+    && composer global require "hirak/prestissimo:^0.3"
 
 ADD bootstrap.sh /bootstrap.sh
 RUN chown root:root /bootstrap.sh

@@ -1,13 +1,21 @@
 version: '2'
 
 services:
+  data:
+    image: busybox
+    volumes:
+      - /vagrant/trisoft/bestvalue/website:/var/www/html
+      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+      - /tmpfs
+
   nginx:
     container_name: nginx
     build: ./nginx
     links:
       - app
     volumes_from:
-      - app
+      - data
+      # - app
     ports:
       - "80:80"
 
@@ -19,9 +27,8 @@ services:
   app:
     container_name: app
     build: ./app
-    volumes:
-      - /vagrant/trisoft/bestvalue/website:/var/www/html
-      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+    volumes_from:
+      - data
     working_dir: /var/www/html
     links:
       - mysql
@@ -41,6 +48,7 @@ services:
       VAGRANT: VAGRANT
       APP_CONSOLE_ARGS: --no-debug --env test
     shm_size: 512M
+    mem_limit: 2000000000
 
   mysql:
     container_name: mysql
