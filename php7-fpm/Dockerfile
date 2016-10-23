@@ -38,8 +38,12 @@ RUN apt-get clean && apt-get update && apt-get install -y \
         php7.0-curl \
         php-pear \
     && apt-get autoclean \
-    && pecl install apcu
+    && pecl channel-update pecl.php.net \
+    && pecl install apcu \
+    && phpenmod apcu
 
 ADD php.ini /usr/local/etc/php/php.ini
 ADD php.ini /etc/php/7.0/fpm/php.ini
 ADD php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+
+EXPOSE 9000
