@@ -1,17 +1,20 @@
-FROM debian:jessie
+FROM ubuntu:16.04
 
-RUN apt-get update && apt-get -y install \
+RUN apt-get update && apt-get -y install software-properties-common \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+    && add-apt-repository ppa:ondrej/php -y \
+    && apt-get update \
+    && apt-get upgrade -yqq
+
+RUN apt-get -y install \
       wget \
       curl \
       apt-utils \
       ssmtp \
       xz-utils \
-      libxrender-dev \
-      && wget -O - http://www.dotdeb.org/dotdeb.gpg | apt-key add - \
-      && echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list \
-      && echo "\ndeb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list.d/dotdeb.list
+      libxrender-dev
 
-RUN apt-get clean && apt-get update && apt-get install -y \
+RUN apt-get install -y \
         libsqlite3-dev \
         libicu-dev \
         libldb-dev \
@@ -36,11 +39,9 @@ RUN apt-get clean && apt-get update && apt-get install -y \
         php-mbstring \
         php7.0-soap \
         php7.0-curl \
+        php7.0-dev \
         php-pear \
-    && apt-get autoclean \
-    && pecl channel-update pecl.php.net \
-    && pecl install apcu \
-    && phpenmod apcu
+    && apt-get autoclean
 
 ADD php.ini /usr/local/etc/php/php.ini
 ADD php.ini /etc/php/7.0/fpm/php.ini

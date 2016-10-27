@@ -94,3 +94,12 @@ services:
     ports:
       - "1025:1025"
       - "1080:1080"
+
+  blackfire:
+    container_name: blackfire
+    image: blackfire/blackfire
+    environment:
+      BLACKFIRE_SERVER_ID: "610b20ee-be22-4e66-addc-e0a6f42ad7ca"
+      BLACKFIRE_SERVER_TOKEN: "3f3383de451753b7c3bd232b0d8286eb998173e34bbb6d17fd1ad887ef50499a"
+
+
