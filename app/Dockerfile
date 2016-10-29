@@ -24,6 +24,7 @@ RUN version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > /etc/php/7.0/cli/conf.d/blackfire.ini \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > /etc/php/7.0/fpm/conf.d/blackfire.ini
 
+RUN echo "\nalias xdebug-en='phpenmod xdebug && service php7.0-fpm restart'\nalias xdebug-dis='phpdismod xdebug && service php7.0-fpm restart'" > ~/.bashrc
 RUN apt-get autoclean
 
 ADD bootstrap.sh /bootstrap.sh

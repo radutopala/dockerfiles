@@ -36,6 +36,7 @@ services:
       - elasticsearch
       - selenium
       - mailcatcher
+      - mongo
     depends_on:
       - php-fpm
     ports:
@@ -49,6 +50,8 @@ services:
       APP_CONSOLE_ARGS: --no-debug --env test
     shm_size: 512M
     mem_limit: 2000000000
+    extra_hosts:
+    - "host:192.168.0.101"
 
   mysql:
     container_name: mysql
@@ -63,6 +66,14 @@ services:
     image: redis
     ports:
       - "6379:6379"
+
+  redis-commander:
+    image: tenstartups/redis-commander
+    links:
+      - redis:redis
+    command: --redis-host redis -p 8082
+    ports:
+      - "8082:8082"
 
   rabbitmq:
     container_name: rabbitmq
@@ -102,4 +113,15 @@ services:
       BLACKFIRE_SERVER_ID: "610b20ee-be22-4e66-addc-e0a6f42ad7ca"
       BLACKFIRE_SERVER_TOKEN: "3f3383de451753b7c3bd232b0d8286eb998173e34bbb6d17fd1ad887ef50499a"
 
+  mongo:
+    image: mongo:latest
+
+  mongo-express:
+    image: mongo-express:latest
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"
 

@@ -41,7 +41,12 @@ RUN apt-get install -y \
         php7.0-curl \
         php7.0-dev \
         php-pear \
+        php-xdebug \
     && apt-get autoclean
+
+
+ADD xdebug.ini /etc/php/7.0/mods-available
+RUN phpdismod xdebug
 
 ADD php.ini /usr/local/etc/php/php.ini
 ADD php.ini /etc/php/7.0/fpm/php.ini
