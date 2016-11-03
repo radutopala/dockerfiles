@@ -92,12 +92,11 @@ services:
       - "9200:9200"
 
   selenium:
-    container_name: selenium
-    build: ./selenium
+    image: selenium/standalone-chrome-debug
     ports:
       - "4444:4444"
     extra_hosts:
-    - "bv.test:192.168.2.100"
+      - "bv.test:192.168.2.100"
 
   mailcatcher:
     container_name: mailcatcher
