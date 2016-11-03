@@ -51,7 +51,7 @@ services:
     shm_size: 512M
     mem_limit: 2000000000
     extra_hosts:
-    - "host:192.168.0.101"
+      - "host:192.168.0.101"
 
   mysql:
     container_name: mysql
