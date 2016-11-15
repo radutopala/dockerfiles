@@ -1,57 +1,58 @@
 version: '2'
 
 services:
-  data:
-    image: busybox
-    volumes:
-      - /vagrant/trisoft/bestvalue/website:/var/www/html
-      - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
-      - /tmpfs
+  # data:
+  #   image: busybox
+  #   volumes:
+  #     - /Users/viorel/Projects/trisoft/bestvalue/website:/var/www/html
+  #     # - /vagrant/trisoft/bestvalue/website:/var/www/html
+  #     - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+  #     - /tmpfs
 
-  nginx:
-    container_name: nginx
-    build: ./nginx
-    links:
-      - app
-    volumes_from:
-      - data
-    ports:
-      - "80:80"
+  # nginx:
+  #   container_name: nginx
+  #   build: ./nginx
+  #   links:
+  #     - app
+  #   volumes_from:
+  #     - data
+  #   ports:
+  #     - "80:80"
 
-  php-fpm:
-    container_name: php7-fpm
-    build: ./php7-fpm
-    image: php7-fpm:local
+  # php-fpm:
+  #   container_name: php7-fpm
+  #   build: ./php7-fpm
+  #   image: php7-fpm:local
 
-  app:
-    container_name: app
-    build: ./app
-    volumes_from:
-      - data
-    working_dir: /var/www/html
-    links:
-      - mysql
-      - redis
-      - rabbitmq
-      - elasticsearch
-      - selenium
-      - mailcatcher
-      - mongo
-    depends_on:
-      - php-fpm
-    ports:
-      - "8080:8080"
-      - "9000:9000"
-    environment:
-      TERM: "xterm"
-      TIMEZONE: "Europe/Bucharest"
-      SSH_AUTH_SOCK: /ssh-agent
-      VAGRANT: VAGRANT
-      APP_CONSOLE_ARGS: --no-debug --env test
-    shm_size: 512M
-    mem_limit: 2000000000
-    extra_hosts:
-      - "host:192.168.0.101"
+  # app:
+  #   container_name: app
+  #   build: ./app
+  #   volumes_from:
+  #     - data
+  #   working_dir: /var/www/html
+  #   links:
+  #     - mysql
+  #     - redis
+  #     - rabbitmq
+  #     - elasticsearch
+  #     - selenium
+  #     - mailcatcher
+  #     - mongo
+  #   depends_on:
+  #     - php-fpm
+  #   # ports:
+  #     # - "8080:8080"
+  #     # - "9000:9000"
+  #   environment:
+  #     TERM: "xterm"
+  #     TIMEZONE: "Europe/Bucharest"
+  #     SSH_AUTH_SOCK: /ssh-agent
+  #     VAGRANT: VAGRANT
+  #     APP_CONSOLE_ARGS: --no-debug --env test
+  #   shm_size: 512M
+  #   mem_limit: 2000000000
+  #   extra_hosts:
+  #     - "host:192.168.0.101"
 
   mysql:
     container_name: mysql
@@ -80,6 +81,7 @@ services:
     build: ./rabbitmq
     ports:
       - "15672:15672"
+      - "5672:5672"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
@@ -95,8 +97,12 @@ services:
     image: selenium/standalone-chrome-debug
     ports:
       - "4444:4444"
+      - "5900:5900"
     extra_hosts:
-      - "bv.test:192.168.2.100"
+      - "bv.test:192.168.0.101"
+    environment:
+      no_proxy: localhost
+      HUB_ENV_no_proxy: localhost
 
   mailcatcher:
     container_name: mailcatcher
